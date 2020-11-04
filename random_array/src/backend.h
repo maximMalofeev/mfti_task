@@ -18,6 +18,5 @@ class Backend : public QObject {
   void update(QVariant arr);
 
  private:
-  int count_{};
   Worker* worker_{};
 };
