@@ -1,8 +1,8 @@
 project(random_array)
 
 set(src "src/main.cpp"
-        "src/backend.h"
-        "src/backend.cpp")
+        "src/backend.h" "src/backend.cpp"
+        "src/worker.h" "src/worker.cpp")
 
 set(rc "qml/qml.qrc")
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <QObject>
-#include <QThread>
+#include <QVariant>
+#include "worker.h"
 
 class Backend : public QObject {
   Q_OBJECT
@@ -14,8 +15,9 @@ class Backend : public QObject {
   Q_INVOKABLE void stop();
 
  signals:
-  void update(QVariant points);
+  void update(QVariant arr);
 
  private:
-  QThread* backgroundThread_{};
+  int count_{};
+  Worker* worker_{};
 };
