@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
   qmlRegisterType<Backend>("Backend", 1, 0, "Backend");
 
   QQmlApplicationEngine engine;
-  const QUrl url(QStringLiteral("qrc:/main.qml"));
+  const QUrl url(QStringLiteral("qrc:/random_array_main.qml"));
   QObject::connect(
       &engine, &QQmlApplicationEngine::objectCreated, &app,
       [url](QObject *obj, const QUrl &objUrl) {

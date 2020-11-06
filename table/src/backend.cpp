@@ -3,8 +3,9 @@
 #include <QDebug>
 
 Backend::Backend(QObject *parent) : QAbstractTableModel{parent} {
-  for (int i = 0; i < 20; i++) {
-    data_.push_back({{First, "First"},{Second, "Second"}, {Third, "Third"}, {Fourth, "Fourth"}, {Fifth, "Fifth"}});
+  for (int i = 0; i < 200; i++) {
+    data_.push_back(
+        {{First, i}, {Second, i}, {Third, i}, {Fourth, i}, {Fifth, i}});
   }
 }
 
@@ -32,7 +33,7 @@ QVariant Backend::data(const QModelIndex &index, int role) const {
 }
 
 QHash<int, QByteArray> Backend::roleNames() const {
-  return {{Qt::DisplayRole, "backendData"}, {Qt::EditRole, "edit"}};
+  return {{Qt::DisplayRole, "display"}, {Qt::EditRole, "edit"}};
 }
 
 bool Backend::setData(const QModelIndex &index, const QVariant &value,
@@ -45,5 +46,47 @@ bool Backend::setData(const QModelIndex &index, const QVariant &value,
       return true;
     }
   }
+  return false;
+}
+
+bool Backend::removeRows(int row, int count, const QModelIndex &parent) {
+  if (count != 1) {
+    return false;
+  }
+
+  if (row >= 0 && row < data_.size()) {
+    beginRemoveRows(parent, row, row);
+    data_.removeAt(row);
+    endRemoveRows();
+    return true;
+  }
+
+  return false;
+}
+
+bool Backend::copyRow(int row) {
+  if (row >= 0 && row < data_.size()) {
+    cache_ = data_.at(row);
+    hasCacheChanged();
+    return true;
+  }
+
+  return false;
+}
+
+bool Backend::hasCache() const { return cache_.size() != 0; }
+
+bool Backend::insertRows(int row, int count, const QModelIndex &parent) {
+  if (count != 1) {
+    return false;
+  }
+
+  if (row >= 0 && row < data_.size()) {
+    beginInsertRows(parent, row, row);
+    data_.insert(row, cache_);
+    endInsertRows();
+    return true;
+  }
+
   return false;
 }

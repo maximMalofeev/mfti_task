@@ -1,11 +1,11 @@
 #pragma once
-#include <QThread>
 #include <QMutex>
+#include <QThread>
 #include <QWaitCondition>
 
-class Worker : public QThread
-{
+class Worker : public QThread {
   Q_OBJECT
+
  public:
   explicit Worker(QObject* parent = nullptr);
   ~Worker() override;
