@@ -14,7 +14,7 @@ class Backend : public QAbstractTableModel {
  public:
   enum DataFields { First, Second, Third, Fourth, Fifth, Count };
 
-  explicit Backend(int dummyLength = 0, QObject *parent = nullptr);
+  explicit Backend(int dummyLength = 15, QObject *parent = nullptr);
   ~Backend() override;
 
   int rowCount(const QModelIndex &parent) const override;

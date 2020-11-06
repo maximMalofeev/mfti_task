@@ -20,86 +20,94 @@ ApplicationWindow {
     color: "lightgrey"
   }
 
-  ScrollView{
-    anchors.fill: parent
-    clip: true
+  footer: Rectangle {
+    id: footer
+    color: "darkgrey"
+    height: 40
+  }
 
-    TableView {
-      id: table
-      anchors.fill: parent
+  TableView {
+    id: table
+    anchors{
+      top: parent.top
+      left: parent.left
+      right: parent.right
+      bottom: footer.top
+    }
+    ScrollBar.horizontal: ScrollBar{}
+    ScrollBar.vertical: ScrollBar{}
 
-      model: Backend{}
+    model: Backend{}
 
-      Menu {
-        id: tableContextMenue
-        property int row
+    Menu {
+      id: tableContextMenu
+      property int row
 
-        MenuItem {
-          text: "Copy"
-          onTriggered: {
-            table.model.copyRow(tableContextMenue.row)
-          }
-        }
-        MenuItem {
-          text: "Paste"
-          enabled: table.model.hasCache
-          onTriggered: {
-            table.model.insertRows(tableContextMenue.row, 1)
-          }
-        }
-        MenuItem {
-          text: "Remove"
-          onTriggered: {
-            table.model.removeRows(tableContextMenue.row, 1)
-          }
+      MenuItem {
+        text: "Copy"
+        onTriggered: {
+          table.model.copyRow(tableContextMenu.row)
         }
       }
-
-      Component{
-        id: rowIndex
-        Label {
-          id: label
-          width: 30
-          anchors.centerIn: parent
-          text: index
-          horizontalAlignment: Text.AlignHCenter
-          verticalAlignment: Text.AlignVCenter
+      MenuItem {
+        text: "Paste"
+        enabled: table.model.hasCache
+        onTriggered: {
+          table.model.insertRows(tableContextMenu.row, 1)
         }
       }
+      MenuItem {
+        text: "Remove"
+        onTriggered: {
+          table.model.removeRows(tableContextMenu.row, 1)
+        }
+      }
+    }
 
-      delegate: Rectangle {
-        implicitWidth: textInput.implicitWidth + rowIndexLoader.width
-        implicitHeight: textInput.implicitHeight
+    Component{
+      id: rowIndex
+      Label {
+        id: label
+        width: 30
+        anchors.centerIn: parent
+        text: index
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+      }
+    }
 
-        Loader {
-          id: rowIndexLoader
-          property int index: model.row
+    delegate: Rectangle {
+      implicitWidth: textInput.implicitWidth + rowIndexLoader.width
+      implicitHeight: textInput.implicitHeight
 
-          width: item ? item.width : 0
-          anchors{
-            top: parent.top
-            bottom: parent.bottom
-          }
+      Loader {
+        id: rowIndexLoader
+        property int index: model.row
 
-          sourceComponent: model.column === 0 ? rowIndex : undefined
+        width: item ? item.width : 0
+        anchors{
+          top: parent.top
+          bottom: parent.bottom
         }
 
-        TextField {
-          id: textInput
-          anchors.right: parent.right
-          clip: true
-          text: model.display
-          onEditingFinished: {
-            model.edit = text
-          }
-          onPressed: {
-            if(event.button == Qt.RightButton) {
-              let coords = mapToItem(table, event.x, event.y)
-              tableContextMenue.x = coords.x
-              tableContextMenue.y = coords.y
-              tableContextMenue.row = model.row
-              tableContextMenue.open()
-            }
+        sourceComponent: model.column === 0 ? rowIndex : undefined
+      }
+
+      TextField {
+        id: textInput
+        anchors.right: parent.right
+        clip: true
+        text: model.display
+        onEditingFinished: {
+          model.edit = text
+        }
+        onPressed: {
+          if(event.button === Qt.RightButton) {
+            let coords = mapToItem(table, event.x, event.y)
+            tableContextMenu.x = coords.x
+            tableContextMenu.y = coords.y
+            tableContextMenu.row = model.row
+            tableContextMenu.open()
           }
         }
       }
