@@ -2,8 +2,8 @@
 
 #include <QDebug>
 
-Backend::Backend(QObject *parent) : QAbstractTableModel{parent} {
-  for (int i = 0; i < 200; i++) {
+Backend::Backend(int dummyLength, QObject *parent) : QAbstractTableModel{parent} {
+  for (int i = 0; i < dummyLength; i++) {
     data_.push_back(
         {{First, i}, {Second, i}, {Third, i}, {Fourth, i}, {Fifth, i}});
   }
@@ -22,6 +22,9 @@ int Backend::columnCount(const QModelIndex &parent) const {
 }
 
 QVariant Backend::data(const QModelIndex &index, int role) const {
+  if(!index.isValid()) {
+    return {};
+  }
   switch (role) {
     case Qt::DisplayRole:
       return data_.at(index.row()).value((DataFields)index.column());
@@ -29,7 +32,7 @@ QVariant Backend::data(const QModelIndex &index, int role) const {
       break;
   }
 
-  return QVariant();
+  return {};
 }
 
 QHash<int, QByteArray> Backend::roleNames() const {
@@ -78,6 +81,10 @@ bool Backend::hasCache() const { return cache_.size() != 0; }
 
 bool Backend::insertRows(int row, int count, const QModelIndex &parent) {
   if (count != 1) {
+    return false;
+  }
+
+  if(!hasCache()) {
     return false;
   }
 
