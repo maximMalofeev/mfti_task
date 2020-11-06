@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
 import Backend 1.0
 
 ApplicationWindow {
@@ -23,7 +24,19 @@ ApplicationWindow {
   footer: Rectangle {
     id: footer
     color: "darkgrey"
-    height: 40
+    height: footerLayout.implicitHeight + 4
+    RowLayout {
+      id: footerLayout
+      anchors.centerIn: parent
+      Button {
+        id: pushButton
+        text: "Push"
+      }
+      Button {
+        id: clearButton
+        text: "Clear"
+      }
+    }
   }
 
   TableView {
