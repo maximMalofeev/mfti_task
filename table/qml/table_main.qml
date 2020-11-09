@@ -24,17 +24,13 @@ ApplicationWindow {
   footer: Rectangle {
     id: footer
     color: "darkgrey"
-    height: footerLayout.implicitHeight + 4
-    RowLayout {
-      id: footerLayout
+    height: pushButton.implicitHeight + 4
+    Button {
+      id: pushButton
       anchors.centerIn: parent
-      Button {
-        id: pushButton
-        text: "Push"
-      }
-      Button {
-        id: clearButton
-        text: "Clear"
+      text: "Push"
+      onClicked: {
+        table.model.insertRows(table.model.rowCount(), 1)
       }
     }
   }

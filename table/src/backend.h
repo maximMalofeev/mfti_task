@@ -5,8 +5,6 @@
 #include <QObject>
 #include <QVariant>
 
-// TODO insert row into empty table
-// TODO insert rows after last element
 class Backend : public QAbstractTableModel {
   Q_OBJECT
   Q_PROPERTY(bool hasCache READ hasCache NOTIFY hasCacheChanged)
@@ -14,7 +12,7 @@ class Backend : public QAbstractTableModel {
  public:
   enum DataFields { First, Second, Third, Fourth, Fifth, Count };
 
-  explicit Backend(int dummyLength = 15, QObject *parent = nullptr);
+  explicit Backend(int dummyLength = 0, QObject *parent = nullptr);
   ~Backend() override;
 
   int rowCount(const QModelIndex &parent) const override;

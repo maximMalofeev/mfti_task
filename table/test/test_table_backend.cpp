@@ -52,6 +52,7 @@ class TestTableBackend : public QObject {
     QVERIFY(b.copyRow(0) == true);
     QVERIFY(b.insertRows(0, 1) == true);
     QCOMPARE(b.rowCount(QModelIndex{}), 11);
+    QVERIFY(b.insertRows(11, 1) == true);
   }
 
   void testCopyInsertRemove() {
