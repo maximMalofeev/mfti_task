@@ -16,3 +16,4 @@ enable_testing()
 
 add_subdirectory(random_array)
 add_subdirectory(table)
+add_subdirectory(chart)
