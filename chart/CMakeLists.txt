@@ -5,7 +5,7 @@ set(src "src/main.cpp"
 
 set(rc "qml/qml.qrc")
 
-add_executable(${PROJECT_NAME} ${src} ${rc})
+add_executable(${PROJECT_NAME} WIN32 ${src} ${rc})
 target_compile_definitions(${PROJECT_NAME}
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(${PROJECT_NAME}
